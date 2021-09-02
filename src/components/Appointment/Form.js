@@ -30,7 +30,7 @@ export default function Form(props) {
             danger
             onClick={(event) => {
               setName('');
-              setInterviewer(props.interviewer);
+              setInterviewer(null);
               props.onCancel();
             }}
           >

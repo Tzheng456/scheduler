@@ -40,14 +40,6 @@ const appointments = [
   {
     id: 5,
     time: '5pm',
-    // interview: {
-    //   student: 'Student 3',
-    //   interviewer: {
-    //     id: 3,
-    //     name: 'Mildred Nazir',
-    //     avatar: 'https://i.imgur.com/T2WwVfS.png',
-    //   },
-    // },
   },
 ];
 

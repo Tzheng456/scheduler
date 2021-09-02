@@ -2,6 +2,7 @@
 @import 'styles/variables.scss';
 
 .interviewers {
+  padding-right: 5px;
   &__item {
     @include button-inactive--opacity;
 
