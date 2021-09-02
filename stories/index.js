@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -17,6 +17,7 @@ import Show from 'components/Appointment/Show';
 import Confirm from 'components/Appointment/Confirm';
 import Status from 'components/Appointment/Status';
 import Error from 'components/Appointment/Error';
+import Form from 'components/Appointment/Form';
 
 storiesOf('Button', module)
   .addParameters({
@@ -94,7 +95,7 @@ storiesOf('InterviewerListItem', module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      setInterviewer={(event) => action('setInterviewer')(interviewer.id)}
+      onChange={(event) => action('onChange')(interviewer.id)}
     />
   ));
 
@@ -111,14 +112,10 @@ storiesOf('InterviewerList', module)
     backgrounds: [{ name: 'dark', value: '#222f3e', default: true }],
   })
   .add('Initial', () => (
-    <InterviewerList interviewers={interviewers} setInterviewer={action('setInterviewer')} />
+    <InterviewerList interviewers={interviewers} onChange={action('onChange')} />
   ))
   .add('Preselected', () => (
-    <InterviewerList
-      interviewers={interviewers}
-      interviewer={3}
-      setInterviewer={action('setInterviewer')}
-    />
+    <InterviewerList interviewers={interviewers} value={3} onChange={action('onChange')} />
   ));
 
 storiesOf('Appointment', module)
@@ -146,6 +143,53 @@ storiesOf('Appointment', module)
   ))
   .add('Saving', () => <Status message="Saving" />)
   .add('Deleting', () => <Status message="Deleting" />)
-  .add('Error', () => (
-    <Error message="Could not delete appointment." onClose={action('onClose')} />
+  .add('Error', () => <Error message="Could not delete appointment." onClose={action('onClose')} />)
+  .add('Create Form', () => (
+    <Form interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')} />
+  ))
+  .add('Edit Form', () => (
+    <Form
+      name=""
+      interviewers={interviewers}
+      interviewer={interviewer}
+      onSave={action('onSave')}
+      onCancel={action('onCancel')}
+    />
+  ))
+  .add('Appointment Empty', () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        onAdd={action('onAdd')}
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+      />
+      <Appointment
+        id="last"
+        time="1pm"
+        onAdd={action('onAdd')}
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+      />
+    </Fragment>
+  ))
+  .add('Appointment Booked', () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: 'Lydia Miller-Jones', interviewer }}
+        onAdd={action('onAdd')}
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+      />
+      <Appointment
+        id="last"
+        time="1pm"
+        onAdd={action('onAdd')}
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+      />
+    </Fragment>
   ));
