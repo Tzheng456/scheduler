@@ -13,7 +13,7 @@ export default function Application(props) {
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
   });
-  let dailyAppointments = [];
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const setDay = (day) => setState({ ...state, day });
 
@@ -23,11 +23,11 @@ export default function Application(props) {
       axios.get('/api/appointments'),
       // axios.get('/api/interviewers'),
     ]).then((all) => {
-      setState((prev) => ({ ...prev, days: all[0].data, appointments: all[1].data }));
+      const days = all[0].data;
+      const appointments = all[1].data;
+      setState((prev) => ({ ...prev, days, appointments }));
     });
   }, []);
-
-  dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const appointmentsMapped = dailyAppointments.map((appointment) => (
     <Appointment
