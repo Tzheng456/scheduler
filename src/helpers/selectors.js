@@ -17,7 +17,6 @@ const getInterview = (state, interview) => {
     interview.interviewer = state.interviewers[interviewerId];
     return interview;
   }
-
   return null;
 };
 
