@@ -35,15 +35,22 @@ export default function Appointment(props) {
       .then(() => {
         transition(SHOW);
       })
-      .catch(() => transition(ERROR_SAVE, true));
+      .catch((res) => {
+        console.log(res);
+        transition(ERROR_SAVE, true);
+      });
   }
 
   function onDelete() {
     transition(DELETING, true);
     props
       .onDelete(props.id)
-      .then(() => transition(EMPTY))
-      .catch(() => transition(ERROR_DELETE, true));
+      .then(() => {
+        transition(EMPTY);
+      })
+      .catch(() => {
+        transition(ERROR_DELETE, true);
+      });
   }
 
   return (
