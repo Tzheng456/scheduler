@@ -23,6 +23,24 @@ export default function useApplicationData(initial) {
     });
   }, []);
 
+  function updateSpots(appointments) {
+    let newDays = [];
+    for (const thisDay of state.days) {
+      let spots = 0;
+      for (const appointmentId of thisDay.appointments) {
+        if (appointments[appointmentId].interview === null) {
+          spots++;
+        }
+      }
+      const newDay = {
+        ...thisDay,
+        spots,
+      };
+      newDays.push(newDay);
+    }
+    return newDays;
+  }
+
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -32,9 +50,10 @@ export default function useApplicationData(initial) {
       ...state.appointments,
       [id]: appointment,
     };
-    return axios
-      .put(`/api/appointments/${id}`, appointment)
-      .then(() => setState({ ...state, appointments }));
+    return axios.put(`/api/appointments/${id}`, appointment).then(() => {
+      updateSpots(appointments);
+      setState((prev) => ({ ...prev, appointments, days: updateSpots(appointments) }));
+    });
   }
 
   function cancelInterview(id) {
@@ -46,9 +65,9 @@ export default function useApplicationData(initial) {
       ...state.appointments,
       [id]: appointment,
     };
-    return axios
-      .delete(`/api/appointments/${id}`, { interview: null })
-      .then(() => setState({ ...state, appointments }));
+    return axios.delete(`/api/appointments/${id}`, { interview: null }).then(() => {
+      setState((prev) => ({ ...prev, appointments, days: updateSpots(appointments) }));
+    });
   }
   return { state, setDay, bookInterview, cancelInterview };
 }
