@@ -5,10 +5,10 @@ export default function useVisualMode(initial) {
 
   function transition(mode, replace = false) {
     if (!replace) {
-      setMode((prev) => mode);
+      setMode(() => mode);
       setHistory((prev) => [...prev, mode]);
     } else {
-      setMode((prev) => mode);
+      setMode(() => mode);
       setHistory((prev) => {
         const prevReplace = [...prev].slice(0, -1);
         return [...prevReplace, mode];
@@ -17,8 +17,8 @@ export default function useVisualMode(initial) {
   }
   function back() {
     if (history.length > 1) {
-      setMode(history[history.length - 2]);
-      setHistory(history.slice(0, -1));
+      setMode(() => history[history.length - 2]);
+      setHistory((prev) => prev.slice(0, -1));
     }
   }
 
