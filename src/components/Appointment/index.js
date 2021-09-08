@@ -46,8 +46,6 @@ export default function Appointment(props) {
       .catch(() => transition(ERROR_DELETE, true));
   }
 
-  // console.log('here:', props.interview ? props.interview.student : false);
-
   return (
     <article className="appointment">
       <Header time={props.time} />
