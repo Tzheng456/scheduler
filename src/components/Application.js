@@ -68,7 +68,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
-        onEdit={props.onEdit}
+        onEdit={bookInterview}
         onDelete={cancelInterview}
         bookInterview={bookInterview}
       />
