@@ -24,20 +24,22 @@ export default function useApplicationData(initial) {
   }, []);
 
   function updateSpots(state, appointments) {
-    let newDays = [];
-    for (const thisDay of state.days) {
-      let spots = 0;
-      for (const appointmentId of thisDay.appointments) {
-        if (appointments[appointmentId].interview === null) {
-          spots++;
-        }
+    const index = state.days.findIndex((day) => day.name === state.day);
+    const thisDay = state.days[index];
+
+    let spots = 0;
+
+    for (const id of thisDay.appointments) {
+      const appointment = appointments[id];
+      if (!appointment.interview) {
+        spots++;
       }
-      const newDay = {
-        ...thisDay,
-        spots,
-      };
-      newDays.push(newDay);
     }
+
+    const day = { ...thisDay, spots };
+
+    const newDays = state.days.map((obj) => (obj.name === state.day ? day : obj));
+
     return newDays;
   }
 
