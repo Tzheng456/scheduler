@@ -10,6 +10,7 @@ import Error from './Error';
 import useVisualMode from 'hooks/useVisualMode';
 
 export default function Appointment(props) {
+  //mode constants
   const EMPTY = 'EMPTY';
   const SHOW = 'SHOW';
   const CREATE = 'CREATE';
@@ -20,8 +21,11 @@ export default function Appointment(props) {
   const ERROR_SAVE = 'ERROR_SAVE';
   const ERROR_DELETE = 'ERROR_DELETE';
 
+  //destructure mode, transition and back from useVisualMode hook, initialize as SHOW if interview exists, EMPTY if not
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
 
+  //function which takes new name and interviewer, then creates an interview object which is passed to props.bookInterview
+  //transitions between modes: SAVING, SHOW if bookInterview resolves with no error, ERROR_SAVE (replace last mode in history)) if error is caught
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -40,6 +44,8 @@ export default function Appointment(props) {
       });
   }
 
+  //function which passes the id to onDelete to delete an interview
+  //transitions to DELETING (replace last mode in history) then to EMPTY if resolves with no error, to ERROR_DELETE (replace last mode in history) if error is caught
   function onDelete() {
     transition(DELETING, true);
     props
@@ -52,6 +58,7 @@ export default function Appointment(props) {
       });
   }
 
+  //return an Appointment component with all the conditionally rendered modes and corresponding components for each mode
   return (
     <article className="appointment">
       <Header time={props.time} />

@@ -6,10 +6,16 @@ import Appointment from './Appointment';
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from 'helpers/selectors';
 import useApplicationData from 'hooks/useApplicationData';
 
-export default function Application(props) {
+export default function Application() {
+  //destructure state, setDay, bookInterview, cancelInterview from useApplicationData hook
   const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
 
+  //uses selector getInteriewersForDay to return a list of interviewers on the current day
   const interviewers = getInterviewersForDay(state, state.day);
+
+  //uses selector getAppointmentsForDay to get a list of appointments on the current day
+  //maps data from each appointment as props of an Appointment component
+  //return a list of Appointment components with corresponding information for the current day
   const appointments = getAppointmentsForDay(state, state.day).map((appointment) => {
     return (
       <Appointment
@@ -25,6 +31,7 @@ export default function Application(props) {
     );
   });
 
+  //return the Application component containing the DayList component of the current day, and a formatted list of Appointment components
   return (
     <main className="layout">
       <section className="sidebar">

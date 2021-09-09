@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Error(props) {
+  //returns an error mode which contains a message passed from props, and a clickable "close" image that calls props.onClose onClick
   return (
     <main className="appointment__card appointment__card--error">
       <section className="appointment__error-message">
